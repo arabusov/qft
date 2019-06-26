@@ -2,14 +2,14 @@ import Lorentz
 import Data.Complex
 
 main = do
-    let a = Vector (2.0:+0.0) (3.0:+0.0) (4.0:+5.0)
-    let zeroV = Vector (0.0:+0.0) (0.0:+0.0) (0.0:+0.0)
+    let a = HermVector (Vector (2.0:+0.0) (3.0:+0.0) (4.0:+5.0))
+    let zeroV = HermVector (Vector (0.0:+0.0) (0.0:+0.0) (0.0:+0.0))
     putStr "1: "
-    if (a `scalarMult` a == 54.0:+0)
+    if (a `cdot` a == 54.0:+0)
         then do print "Ok."
         else do print "Fail."
     putStr "2: "
-    if (a `scalarMult` zeroV == 0.0:+0.0)
+    if (a `cdot` zeroV == 0.0:+0.0)
         then do print "Ok."
         else do print "Fail."
     putStr "3: "
