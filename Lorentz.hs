@@ -40,8 +40,8 @@ module Lorentz (
     toHermVector (Vector x y z) = HermVector (Vector (x :+ 0.0) (y :+ 0.0) (z :+ 0.0))
     -- | 4D pseudo-vector (Minkovsky space) 
     data FourVector = FourVector { t :: Complex Double
-                             , r :: HermVector
-                              } deriving (Show, Eq)
+                                 , r :: HermVector
+                                 } deriving (Show, Eq)
     -- | 'toFourVector' constructs FourVector from known mass and 'Vector
     -- Double'
     toFourVector :: Double -> (Vector Double) -> FourVector
