@@ -1,5 +1,33 @@
-module Lorentz where
+{-|
+Module          : Lorentz
+Description     : Haskell implementation of lorentz group transformations
+License         : GPL-3
+Maintainer      : arabusov@gmail.com
+Stability       : experimental
 
+This module provides an interface and implementation
+for basic definition of 3D and 4D vectors
+and to some transformation functions. The main idea is to make it easy
+for simple numerical theoretical calculations in QFT (mostly tree-level
+diagrams, phase space relations), which is quite useful for experimental
+particle physics (or high energy physics).
+You must take into account, that all this stuff is done for fun, therefore
+I provide this module without any warranty, see GPL-3 description.
+-}
+module Lorentz (
+               -- * Classes
+                 VectorSpaceClass (..)
+               -- * Types
+               -- ** Data Types
+               , Vector(..)
+               , HermVector(..)
+               , FourVector(..)
+               -- * Functions
+               , toHermVector
+               , toFourVector
+               , interval2
+               , interval
+               ) where
     import Data.Complex
     -- | Basic 3D vector
     data Vector a = Vector a a a deriving (Show, Eq)
