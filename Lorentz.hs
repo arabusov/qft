@@ -71,7 +71,12 @@ module Lorentz (
         rotateOfX :: a -> Double -> a
         -- | rotate around y axis by some angle in radians
         rotateOfY :: a -> Double -> a
+        -- | 'rho' returns the absolute value of spatial part of vector
         rho :: a -> Double
+        -- | 'theta' returns theta in spherical coordinates 
+        theta :: a -> Double
+        -- | 'phi' returns phi in spherical coordinates
+        phi :: a -> Double
     instance VectorSpaceClass HermVector where
         (HermVector (Vector x1 y1 z1)) `cdot` (HermVector (Vector x2 y2 z2)) =
             (conjugate (x1) * x2) + (conjugate (y1) * y2) + (conjugate (z1) * z2)
@@ -91,6 +96,13 @@ module Lorentz (
             z' = z * (cos (psi) :+ 0.0) - x * (sin (psi) :+ 0.0)
             x' = z * (sin (psi) :+ 0.0) + x * (cos (psi) :+ 0.0)
         rho hermvec = magnitude (sqrt (hermvec `cdot` hermvec))
+        phi (HermVector (Vector x y _)) | magnitude (x) == 0 && magnitude (y) == 0 = 0.0
+                                        | magnitude (x) == 0 && realPart y >  0 = pi / 2.0
+                                        | magnitude (x) == 0 && realPart y <  0 = - pi / 2.0
+                                        | realPart y > 0 = atan (realPart y/realPart x)
+                                        | realPart y < 0 = atan (realPart y/realPart x) - pi 
+        theta (HermVector (Vector x y z)) = acos (zz/rho (HermVector (Vector x y z))) where
+                                            zz = realPart z
     instance VectorSpaceClass FourVector where
         (FourVector t1 r1) `vplus` (FourVector t2 r2) = FourVector (t1+t2) (r1 `vplus` r2)
         lambda `vmult` (FourVector t1 r1) = FourVector (lambda*t1) (lambda `vmult` r1)
@@ -101,4 +113,6 @@ module Lorentz (
         rotateOfX (FourVector t r) psi = FourVector t (rotateOfX r psi)
         rotateOfY (FourVector t r) psi = FourVector t (rotateOfY r psi)
         rho (FourVector t r) = rho r
+        theta (FourVector t r) = theta r
+        phi (FourVector t r) = phi r
 

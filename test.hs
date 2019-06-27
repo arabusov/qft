@@ -42,4 +42,9 @@ main = do
     if rho ppi == rho (rotateOfY ppi 3.4)
         then do putStrLn "Ok."
         else do putStrLn "Fail."
-
+    putStr "9: "
+    let 
+        psi = 3.1
+        phi0 = phi ppi
+        phirot = phi (rotateOfZ ppi psi)
+    print (phirot-phi0-psi)
