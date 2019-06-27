@@ -20,4 +20,13 @@ main = do
     if ( a `vplus` zeroV == a)
         then do print "Ok."
         else do print "Fail."
+    let mpi = 0.139
+    let pv = Vector 0.3 0.2 0.5
+    let ppi = toFourVector mpi pv
+    putStr "5: "
+    if magnitude((ppi `cdot` ppi) - (mpi*mpi :+ 0)) < 10.0^^(-16)
+        then do print "Ok."
+        else do 
+            putStr "Fail. ppi**2 - mpi**2 = "
+            print $ ppi `cdot` ppi - (mpi*mpi :+ 0)
 
