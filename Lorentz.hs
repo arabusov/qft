@@ -27,6 +27,7 @@ module Lorentz (
                , toFourVector
                , interval2
                , interval
+               , boostX
                ) where
     import Data.Complex
     -- | Basic 3D vector
@@ -53,6 +54,28 @@ module Lorentz (
     -- | 'interval' returns mass of gived four-momentum
     interval :: FourVector -> (Complex Double)
     interval fv = sqrt (interval2 fv)
+    -- | 'boost1D' helps to unify boostX, boostY and boostZ functions
+    boost1D :: (Complex Double) -> (Complex Double) -> Double -> ((Complex Double), (Complex Double))
+    boost1D t x beta = (t', x') where
+                                    beta' = (beta :+ 0)
+                                    gamma = 1.0/sqrt(1-beta'**2)
+                                    t' = gamma * t + gamma * beta' * x
+                                    x' = gamma * x + gamma * beta' * t
+    -- | 'boostX' returns FourVector, boosted along the x axis
+    boostX :: FourVector -> Double -> FourVector
+    boostX (FourVector t (HermVector (Vector x y z))) beta =
+        FourVector t' (HermVector (Vector x' y z)) where
+        (t', x') = boost1D t x beta
+    -- | 'boostY' returns FourVector, boosted along the x axis
+    boostY :: FourVector -> Double -> FourVector
+    boostY (FourVector t (HermVector (Vector x y z))) beta =
+        FourVector t' (HermVector (Vector x y' z)) where
+        (t', y') = boost1D t y beta
+    -- | 'boostZ' returns FourVector, boosted along the x axis
+    boostZ :: FourVector -> Double -> FourVector
+    boostZ (FourVector t (HermVector (Vector x y z))) beta =
+        FourVector t' (HermVector (Vector x y z')) where
+        (t', z') = boost1D t z beta
     -- | 'VectorSpaceClass' gives an interface for basic vector operations, such
     -- as plus, multiplication to scalar and scalar product
     class VectorSpaceClass a where

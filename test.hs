@@ -48,3 +48,11 @@ main = do
         phi0 = phi ppi
         phirot = phi (rotateOfZ ppi psi)
     print (phirot-phi0-psi)
+    putStr "10: "
+    let ppiboosted = (boostX ppi 0.5)
+    let ppiboostedback = (boostX ppiboosted (-0.5))
+    print $ interval ppiboosted
+    print $ interval ppiboostedback
+    print ppiboosted
+    print ppiboostedback
+    print ppi
