@@ -9,10 +9,14 @@ main = do
     let ppi = toFourVector mpi pv
     let 
         psi = 3.1
-        phi0 = phi ppi
-        phirot = phi (rotateOfZ ppi psi)
-    let ppiboosted = (boostX ppi 0.5)
-    let ppiboostedback = (boostX ppiboosted (-0.5))
+        ppirot = rotateOfZ ppi psi
+        ppirotback = rotateOfZ ppirot (-1.0 * psi)
+    let
+        beta = 0.5
+        ppiboosted = boostX ppi beta
+        ppiboostedback = boostX ppiboosted (-1.0 * beta)
+    let
+        precision = 10.0^^(-15)
     let testli = [ a `cdot` a == (54.0 :+ 0)
                  , a `cdot` zeroV == 0.0 :+ 0.0
                  , (0.0:+0.0) `vmult` a == zeroV
@@ -21,7 +25,8 @@ main = do
                  , rho ppi == rho (rotateOfZ ppi 1.0) 
                  , rho ppi == rho (rotateOfX ppi 2.3)
                  , rho ppi == rho (rotateOfY ppi 3.4)
-                 , (ppiboostedback `veq` ppi) (10.0^^(-10))
+                 , (ppiboostedback `veq` ppi) precision
+                 , (ppirotback `veq` ppi) precision
                  ]
     let enumeratedList = zip testli [1..length testli]
     print (map (\ (x,y) -> if x then show y ++ ": Ok."
