@@ -21,15 +21,8 @@ main = do
                  , rho ppi == rho (rotateOfZ ppi 1.0) 
                  , rho ppi == rho (rotateOfX ppi 2.3)
                  , rho ppi == rho (rotateOfY ppi 3.4)
+                 , (ppiboostedback `veq` ppi) (10.0^^(-10))
                  ]
     let enumeratedList = zip testli [1..length testli]
     print (map (\ (x,y) -> if x then show y ++ ": Ok."
                           else show y ++ ". Fail.") enumeratedList)
-    putStr "9: "
-    print (phirot-phi0-psi)
-    putStr "10: "
-    print $ interval ppiboosted
-    print $ interval ppiboostedback
-    print ppiboosted
-    print ppiboostedback
-    print ppi
