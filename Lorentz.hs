@@ -29,17 +29,19 @@ module Lorentz (
                , toFourVector
                , interval2
                , interval
-               , boost1D
                , boostX
                , boostY
                , boostZ
+               , boostInDirection
                ) where
     import Data.Complex
     -- | Basic 3D vector
     data Vector a = Vector a a a deriving (Show, Eq)
     -- | Specific implementation of 3D vector in Hermitian vector space
     -- note, than x, y and z \belong Complex field
-    newtype HermVector = HermVector {getVector :: Vector (Complex Double)} deriving (Show, Eq)
+    newtype HermVector = HermVector {getHermVector :: Vector (Complex Double)} deriving (Show, Eq)
+    -- | Also a specific instance for 3D vector, but in Orthogonal space
+    newtype ThreeVector = ThreeVector {getRealVector :: Vector (Double)} deriving (Show, Eq)
     -- | 'toHermVector' attaches zero imaginary part to all components of
     -- 'Vector Double'
     toHermVector :: Vector Double -> HermVector
@@ -89,6 +91,20 @@ module Lorentz (
     boostZ (FourVector t (HermVector (Vector x y z))) beta =
         FourVector t' (HermVector (Vector x y z')) where
         (t', z') = boost1D t z beta
+    -- | 'boostInDirection' returns a boosted in a certain 3D direction 4D vector
+    boostInDirection :: FourVector -> Double -> (Vector Double) -> FourVector
+    boostInDirection (FourVector t (HermVector (Vector x y z))) beta' (Vector nnx nny nnz) =
+        let norm = sqrt (nnx**2 + nny**2 + nnz**2)
+            beta = (beta' :+ 0)
+            nx = ((nnx / norm) :+ 0)
+            ny = ((nnx / norm) :+ 0)
+            nz = ((nnz / norm) :+ 0)
+            gamma = (1.0 / sqrt (1-beta**2))
+            t' = gamma*t + gamma*beta*nx*x + gamma*beta*ny*y + gamma*beta*nz*z
+            x' = gamma*beta*nx*t + (1+(gamma-1)*(nx**2))*x + (gamma-1)*nx*ny*y + (gamma-1)*nx*nz*z
+            y' = gamma*beta*ny*t + (1+(gamma-1)*(ny**2))*y + (gamma-1)*ny*nx*x + (gamma-1)*ny*nz*z
+            z' = gamma*beta*nz*t + (1+(gamma-1)*(nz**2))*z + (gamma-1)*nz*nx*x + (gamma-1)*ny*nz*y
+        in FourVector t' (HermVector (Vector x' y' z'))
     -- | 'VectorSpaceClass' gives an interface for basic vector operations, such
     -- as plus, multiplication to scalar and scalar product
     class VectorSpaceClass a where
