@@ -97,7 +97,7 @@ module Lorentz (
         let norm = sqrt (nnx**2 + nny**2 + nnz**2)
             beta = (beta' :+ 0)
             nx = ((nnx / norm) :+ 0)
-            ny = ((nnx / norm) :+ 0)
+            ny = ((nny / norm) :+ 0)
             nz = ((nnz / norm) :+ 0)
             gamma = (1.0 / sqrt (1-beta**2))
             t' = gamma*t + gamma*beta*nx*x + gamma*beta*ny*y + gamma*beta*nz*z

@@ -39,4 +39,3 @@ main = do
     let enumeratedList = zip testli [1..length testli]
     print (map (\ (x,y) -> if x then show y ++ ": Ok."
                           else show y ++ ". Fail.") enumeratedList)
-    print (ppiboostDir `vminus` ppiboostX)
