@@ -24,6 +24,8 @@ module Lorentz (
                , FourVector(..)
                -- * Functions
                , toHermVector
+               , threeVector
+               , hermVector
                , toFourVector
                , interval2
                , interval
@@ -39,6 +41,14 @@ module Lorentz (
     -- 'Vector Double'
     toHermVector :: Vector Double -> HermVector
     toHermVector (Vector x y z) = HermVector (Vector (x :+ 0.0) (y :+ 0.0) (z :+ 0.0))
+    -- | "Easy" function to create a HermVector with real components
+    threeVector :: Double -> Double -> Double -> HermVector
+    threeVector x y z = toHermVector (Vector x y z)
+    -- | Also "Easy" function to make a HermVector from complex components
+    -- | this function is useful to avoid using a mess construction such as
+    -- | HermVector (Vector x y z), you can just write hermVector x y z instead
+    hermVector :: (Complex Double) -> (Complex Double) -> (Complex Double) -> HermVector
+    hermVector x y z = HermVector (Vector x y z)
     -- | 4D pseudo-vector (Minkovsky space) 
     data FourVector = FourVector { t :: Complex Double
                                  , r :: HermVector

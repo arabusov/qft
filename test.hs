@@ -2,8 +2,8 @@ import Lorentz
 import Data.Complex
 
 main = do
-    let a = HermVector (Vector (2.0:+0.0) (3.0:+0.0) (4.0:+5.0))
-    let zeroV = HermVector (Vector (0.0:+0.0) (0.0:+0.0) (0.0:+0.0))
+    let a = hermVector (2.0:+0.0) (3.0:+0.0) (4.0:+5.0)
+    let zeroV = threeVector 0.0 0.0 0.0
     let mpi = 0.139
     let pv = Vector 0.3 0.2 0.5
     let ppi = toFourVector mpi pv
