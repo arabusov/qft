@@ -79,12 +79,12 @@ module Lorentz (
     boostX (FourVector t (HermVector (Vector x y z))) beta =
         FourVector t' (HermVector (Vector x' y z)) where
         (t', x') = boost1D t x beta
-    -- | 'boostY' returns FourVector, boosted along the x axis
+    -- | 'boostY' returns FourVector, boosted along the y axis
     boostY :: FourVector -> Double -> FourVector
     boostY (FourVector t (HermVector (Vector x y z))) beta =
         FourVector t' (HermVector (Vector x y' z)) where
         (t', y') = boost1D t y beta
-    -- | 'boostZ' returns FourVector, boosted along the x axis
+    -- | 'boostZ' returns FourVector, boosted along the z axis
     boostZ :: FourVector -> Double -> FourVector
     boostZ (FourVector t (HermVector (Vector x y z))) beta =
         FourVector t' (HermVector (Vector x y z')) where
