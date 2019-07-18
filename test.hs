@@ -18,8 +18,18 @@ main = do
     let
         betaX = 0.2
         ppiboostX = boostX ppi betaX
-        direction = (Vector 1.0 0.0 0.0)
-        ppiboostDir = (boostInDirection ppi betaX direction)
+        directionX = (Vector 1.0 0.0 0.0)
+        ppiboostDirX = (boostInDirection ppi betaX directionX)
+    let
+        betaY = 0.3
+        ppiboostY = boostY ppi betaY
+        directionY = (Vector 0.0 1.0 0.0)
+        ppiboostDirY = (boostInDirection ppi betaY directionY)
+    let
+        betaZ = (-0.4)
+        ppiboostZ = boostZ ppi betaZ
+        directionZ = (Vector 0.0 0.0 1.0)
+        ppiboostDirZ = (boostInDirection ppi betaZ directionZ)
     let
         precision = 10.0^^(-15)
     let testli = [ a `cdot` a == (54.0 :+ 0)
@@ -33,7 +43,9 @@ main = do
                  , rho ppi == rho (rotateOfY ppi 3.4)
                  , (ppiboostedback `veq` ppi) precision
                  , (ppirotback `veq` ppi) precision
-                 , (ppiboostX `veq` ppiboostDir) precision
+                 , (ppiboostX `veq` ppiboostDirX) precision
+                 , (ppiboostY `veq` ppiboostDirY) precision
+                 , (ppiboostZ `veq` ppiboostDirZ) precision
                  ]
     putStrLn ("All test passed?  " ++ show (1==product [if x then 1 else 0 | x <- testli]))
     let enumeratedList = zip testli [1..length testli]
