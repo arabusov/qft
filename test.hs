@@ -21,6 +21,7 @@ main = do
                  , a `cdot` zeroV == 0.0 :+ 0.0
                  , (0.0:+0.0) `vmult` a == zeroV
                  , a `vplus` zeroV == a
+                 , (((14.0:+(-23.9)) `vmult` zeroV) `veq` zeroV) precision
                  , magnitude((ppi `cdot` ppi) - (mpi*mpi :+ 0)) < 10.0^^(-16)
                  , rho ppi == rho (rotateOfZ ppi 1.0) 
                  , rho ppi == rho (rotateOfX ppi 2.3)
