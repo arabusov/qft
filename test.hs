@@ -53,4 +53,4 @@ main = do
     let enumeratedList = zip testli [1..length testli]
     putStr (concat (map (\ (x,y) -> if x then show y ++ ": Ok.\n"
                           else show y ++ ". Fail.\n") enumeratedList))
-    putStrLn ("All test passed?  " ++ show (1==product [if x then 1 else 0 | x <- testli]))
+    putStrLn ("All test passed?  " ++ (if 1==product [if x then 1 else 0 | x <- testli] then "Yes." else "No."))
