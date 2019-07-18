@@ -29,7 +29,10 @@ module Lorentz (
                , toFourVector
                , interval2
                , interval
+               , boost1D
                , boostX
+               , boostY
+               , boostZ
                ) where
     import Data.Complex
     -- | Basic 3D vector
