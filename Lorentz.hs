@@ -29,12 +29,21 @@ module Lorentz (
                , toFourVector
                , interval2
                , interval
+               , epsilon
                , boostX
                , boostY
                , boostZ
                , boostInDirection
                ) where
     import Data.Complex
+    import Data.List
+    -- | epsilon mu nu rho sigma --- absolute antisymmetric 4th rank tensor in 4D space
+    epsilon :: Int -> Int -> Int -> Int -> Int
+    epsilon mu nu rho sigma = 
+        let searchRes = (\ x -> x == [mu, nu, rho, sigma]) `findIndex` (permutations [0, 1, 2, 3])
+        in case searchRes of
+            Nothing -> 0
+            Just n -> if n `mod` 2 == 0 then 1 else -1
     -- | Basic 3D vector
     data Vector a = Vector a a a deriving (Show, Eq)
     -- | Specific implementation of 3D vector in Hermitian vector space

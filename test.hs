@@ -1,5 +1,6 @@
 import Lorentz
 import Data.Complex
+import Data.List
 
 main = do
     let a = hermVector (2.0:+0.0) (3.0:+0.0) (4.0:+5.0)
@@ -46,8 +47,10 @@ main = do
                  , (ppiboostX `veq` ppiboostDirX) precision
                  , (ppiboostY `veq` ppiboostDirY) precision
                  , (ppiboostZ `veq` ppiboostDirZ) precision
+                 , epsilon 3 2 1 0 == 1
+                 , epsilon 2 0 3 1 == -1
                  ]
-    putStrLn ("All test passed?  " ++ show (1==product [if x then 1 else 0 | x <- testli]))
     let enumeratedList = zip testli [1..length testli]
-    print (map (\ (x,y) -> if x then show y ++ ": Ok."
-                          else show y ++ ". Fail.") enumeratedList)
+    putStr (concat (map (\ (x,y) -> if x then show y ++ ": Ok.\n"
+                          else show y ++ ". Fail.\n") enumeratedList))
+    putStrLn ("All test passed?  " ++ show (1==product [if x then 1 else 0 | x <- testli]))
