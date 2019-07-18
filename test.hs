@@ -29,6 +29,7 @@ main = do
                  , (ppiboostedback `veq` ppi) precision
                  , (ppirotback `veq` ppi) precision
                  ]
+    putStrLn ("All test passed?  " ++ show (1==product [if x then 1 else 0 | x <- testli]))
     let enumeratedList = zip testli [1..length testli]
     print (map (\ (x,y) -> if x then show y ++ ": Ok."
                           else show y ++ ". Fail.") enumeratedList)
