@@ -98,6 +98,8 @@ module Lorentz (
         vmult :: (Complex Double) -> a -> a
         -- | vplus returns sum of two vectors
         vplus :: a -> a -> a
+        -- | vminus returns diff of two vectors
+        vminus :: a -> a -> a
         -- | veq returns if vectors are equal or not with predefined precision
         veq :: a -> a -> Double -> Bool
         -- | ith returns ith component of the vector, [0..2] in 3D, [0..3] in
@@ -119,6 +121,7 @@ module Lorentz (
         (HermVector (Vector x1 y1 z1)) `cdot` (HermVector (Vector x2 y2 z2)) =
             (conjugate (x1) * x2) + (conjugate (y1) * y2) + (conjugate (z1) * z2)
         (HermVector (Vector x y z)) `vplus` HermVector (Vector a b c) = HermVector (Vector (x+a) (y+b) (z+c))
+        (HermVector (Vector x y z)) `vminus` HermVector (Vector a b c) = HermVector (Vector (x-a) (y-b) (z-c))
         (HermVector (Vector x y z) `veq` HermVector (Vector a b c)) epsilon = 
                (magnitude (x-a) < epsilon)
             && (magnitude (y-b) < epsilon)
@@ -147,6 +150,7 @@ module Lorentz (
                                             zz = realPart z
     instance VectorSpaceClass FourVector where
         (FourVector t1 r1) `vplus` (FourVector t2 r2) = FourVector (t1+t2) (r1 `vplus` r2)
+        (FourVector t1 r1) `vminus` (FourVector t2 r2) = FourVector (t1-t2) (r1 `vminus` r2)
         ( (FourVector t1 r1) `veq` (FourVector t2 r2)) epsilon = 
                (r1 `veq` r2) epsilon
             && magnitude (t1-t2) < epsilon

@@ -16,6 +16,14 @@ main = do
         ppiboosted = boostX ppi beta
         ppiboostedback = boostX ppiboosted (-1.0 * beta)
     let
+        betaX = 0.2
+        betaY = 0.3
+        betaZ = 0.4
+        ppiboostXYZ = boostZ (boostY (boostX ppi betaX) betaY) betaZ
+        ppiboostZYX = boostX (boostY (boostZ ppi betaZ) betaY) betaX
+        ppiboostXY = boostY (boostX ppi betaX) betaY
+        ppiboostYX = boostX (boostY ppi betaY) betaX
+    let
         precision = 10.0^^(-15)
     let testli = [ a `cdot` a == (54.0 :+ 0)
                  , a `cdot` zeroV == 0.0 :+ 0.0
