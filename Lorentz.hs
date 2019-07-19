@@ -66,6 +66,7 @@ module Lorentz (
         in case searchRes of -- search result has Maybe Integer type
             Nothing -> 0
             Just n -> if n `mod` 2 == 0 then 1 else -1 -- if n is odd, than return -1, if n is even, than return 1
+    -- | General data type for Lorentz Tensor 
     -- | Basic 3D vector
     data Vector a = Vector a a a deriving (Show, Eq)
     -- | Specific implementation of 3D vector in Hermitian vector space
