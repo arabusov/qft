@@ -47,8 +47,10 @@ main = do
                  , (ppiboostX `veq` ppiboostDirX) precision
                  , (ppiboostY `veq` ppiboostDirY) precision
                  , (ppiboostZ `veq` ppiboostDirZ) precision
-                 , epsilon 3 2 1 0 == 1
-                 , epsilon 2 0 3 1 == -1
+                 , epsilon Zind Yind Xind Tind == 1
+                 , epsilon Yind Tind Zind Xind == -1
+                 , makeIndex 2 == Yind
+                 , succ Yind == Zind
                  ]
     let enumeratedList = zip testli [1..length testli]
     putStr (concat (map (\ (x,y) -> if x then show y ++ ": Ok.\n"

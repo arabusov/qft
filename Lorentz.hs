@@ -19,10 +19,12 @@ module Lorentz (
                  VectorSpaceClass (..)
                -- * Types
                -- ** Data Types
+               , LorentzIndex (..)
                , Vector(..)
                , HermVector(..)
                , FourVector(..)
                -- * Functions
+               , makeIndex
                , toHermVector
                , threeVector
                , hermVector
@@ -37,10 +39,22 @@ module Lorentz (
                ) where
     import Data.Complex
     import Data.List
+    -- | Lorentz index, t==0, x==1, y==2, z==3
+    data LorentzIndex = Tind | Xind | Yind | Zind
+        deriving (Eq, Ord, Show, Read, Bounded, Enum)
+    -- | makeIndex foo converts Integer to the Lorentz Index, if 
+    -- | input is out of range, than just return mu `mod` 4 result
+    makeIndex :: Int -> LorentzIndex
+    makeIndex mu = case mu of
+        0 -> Tind
+        1 -> Xind
+        2 -> Yind
+        3 -> Zind
+        otherwise -> makeIndex $ abs (mu `mod` 4)
     -- | epsilon mu nu rho sigma --- absolute antisymmetric 4th rank tensor in 4D space
-    epsilon :: Int -> Int -> Int -> Int -> Int
+    epsilon :: LorentzIndex -> LorentzIndex -> LorentzIndex ->LorentzIndex  -> Int
     epsilon mu nu rho sigma = 
-        let searchRes = (\ x -> x == [mu, nu, rho, sigma]) `findIndex` (permutations [0, 1, 2, 3])
+        let searchRes = (\ x -> x == [mu, nu, rho, sigma]) `findIndex` (permutations [Tind, Xind, Yind, Zind])
         in case searchRes of
             Nothing -> 0
             Just n -> if n `mod` 2 == 0 then 1 else -1
