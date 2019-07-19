@@ -25,6 +25,7 @@ module Lorentz (
                , FourVector(..)
                -- * Functions
                , makeIndex
+               , getIntFromIndex
                , toHermVector
                , threeVector
                , hermVector
@@ -51,6 +52,13 @@ module Lorentz (
         2 -> Yind
         3 -> Zind
         otherwise -> makeIndex $ abs (mu `mod` 4)
+    -- | getIntFromIndex converts lorentz index to Int
+    getIntFromIndex :: LorentzIndex -> Int
+    getIntFromIndex mu = case mu of
+        Tind -> 0
+        Xind -> 1
+        Yind -> 2
+        Zind -> 3
     -- | epsilon mu nu rho sigma --- absolute antisymmetric 4th rank tensor in 4D space
     epsilon :: LorentzIndex -> LorentzIndex -> LorentzIndex ->LorentzIndex  -> Int
     epsilon mu nu rho sigma = 
