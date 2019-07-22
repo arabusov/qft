@@ -66,7 +66,23 @@ module Lorentz (
         in case searchRes of -- search result has Maybe Integer type
             Nothing -> 0
             Just n -> if n `mod` 2 == 0 then 1 else -1 -- if n is odd, than return -1, if n is even, than return 1
+    -- Synonim for Complex Double
+    newtype Scalar = Scalar (Complex Double)
+    -- | conversion
+    scToCmplx :: Scalar -> Complex Double
+    scToCmplx (Scalar z) = z
     -- | General data type for Lorentz Tensor 
+    data LorentzTensor a = LorentzTensor a a a a
+    -- | Simple definition of 4vector:
+    newtype LorentzVector = LorentzVector (LorentzTensor Scalar)
+    -- | Convertatino to FourVector
+    lorentzToFourVector :: LorentzVector -> FourVector
+    lorentzToFourVector (LorentzVector (LorentzTensor (Scalar t) (Scalar x) (Scalar y) (Scalar z))) = (FourVector t (HermVector (Vector x y z)))
+    -- | And converting fourvector to lorentz vector
+    fourVectorToLorentz :: FourVector -> LorentzVector
+    fourVectorToLorentz (FourVector t (HermVector (Vector x y z))) = LorentzVector (LorentzTensor (Scalar t) (Scalar x) (Scalar y) (Scalar z))
+    -- | and 2nd rank tensor
+    type  LorentzTensor2Rank = LorentzTensor LorentzVector
     -- | Basic 3D vector
     data Vector a = Vector a a a deriving (Show, Eq)
     -- | Specific implementation of 3D vector in Hermitian vector space
